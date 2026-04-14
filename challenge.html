@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Challenges</title>
+  <link rel="stylesheet" href="style2.css">
+  
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="document2.html">Document</a></li>
+         <li><a href="challenge.html">Challenges</a></li>
+    </ul>
+</nav>
+
+</head>
+<body>
+<header>
+  <h1>Challenges & Mind Games</h1>
+</header>
+<section class="section">
+  <h2>🔥Progression</h2>
+  <p id="xpDisplay">XP: 0</p>
+  <p id="levelDisplay">Niveau: 1 (Beginner)</p>
+</section>
+<section class="section">
+  <h3>Challenge 7 jours</h3>
+  <button onclick="completeChallenge()">Valider journee</button>
+  <p id="progress">0/7</p>
+</section>
+ 
+<section class="section">
+  <h2>Mini Game : Choix de vie</h2>
+  <p>Tu échoues. Que fais-tu ?</p>
+  <button onclick="lifeChoice('retry')">Réessayer</button>
+  <button onclick="lifeChoice('quit')">Abandonner</button>
+  <p id="gameResult"></p>
+</section>
+
+<section class="section">
+  <h2>Journal Intime</h2>
+  <p>Écris ce que tu ressens vraiment :</p>
+  <textarea id="journalInput" placeholder="Tes pensées..."></textarea>
+  <button onclick="saveJournal()">Sauvegarder</button>
+  <button onclick="loadJournal()">Voir mes écrits</button>
+  <p id="journalDisplay"></p>
+</section>
+
+<section class="section">
+  <h2>Questions Introspectives</h2>
+  <p id="questionBox">Clique pour commencer</p>
+  <button onclick="newQuestion()">Nouvelle question</button>
+  <textarea id="answerBox" placeholder="Réponds ici..."></textarea>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>

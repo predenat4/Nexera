@@ -1,0 +1,111 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0b1619;
+  color: white;
+}
+
+header {
+  background-color: rgb(0, 229, 255);
+  padding: 15px;
+  background-image: url(logo.jpg);
+  background-position: top;
+  background-size: 30%;
+  animation:fadeUp 1.5s ease;
+  
+}
+
+nav ul{
+  margin: 10px;
+  color: rgb(255, 47, 0);
+  text-decoration:none;
+  background-image: url(middle.jpg);
+
+ 
+}
+
+
+.hero {
+  text-align: center;
+  padding: 50px;
+  background:middle;
+}
+
+.section {
+  padding: 40px;
+}
+
+.card {
+  background: rgb(21, 156, 218);
+  padding: 20px;
+  margin: 10px;
+  border: 2px solid red;
+}
+
+button {
+  background: yellow;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  margin-top:10px;
+  border-radius: 5px;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+
+}
+h1{
+  text-align: center;
+    color: white;
+    text-shadow: 3px 3px 5px red,-3px -3px 5px rgb(34, 220, 230)
+}
+
+#box1{
+    width: 100px;
+    height: 100px;
+    background-color:rgb(52, 53, 53);
+    box-shadow:3px 3px 5px;
+}
+
+textarea, input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+@media (max-width: 900px) {
+
+    header {
+        padding: 20px 30px;
+    }
+
+    nav ul {
+        gap: 15px;
+    }
+
+    .hero-text h2 {
+        font-size: 28px;
+    }
+
+    .products {
+        padding: 30px;
+    }
+    @keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    }
+  }
+  
