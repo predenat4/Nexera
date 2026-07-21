@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tous mes écrits — NeXera</title>
+  <link rel="stylesheet" href="style2.css">
+  <link rel="icon" href="logo.jpg">
+</head>
+<body data-requires-auth="true">
+  <div class="app-layout">
+    <aside class="app-sidebar">
+      <!-- Sidebar content same as challenge.html -->
+    </aside>
+    <div class="app-content-wrapper">
+      <main>
+        <section class="section">
+          <h2>Tous mes écrits</h2>
+          <a href="challenge.html" class="button">Retour aux défis</a>
+          <div id="allJournalEntriesList"></div>
+        </section>
+      </main>
+      <footer><p>© 2026 NeXera — Tous droits réservés</p></footer>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const entries = await fetchJournalEntries();
+        renderJournalEntries(entries, 'allJournalEntriesList');
+    });
+  </script>
+</body>
+</html>

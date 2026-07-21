@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Documents - NeXera</title>
-    <link rel="stylesheet" href="style2.css">
-    <link rel="icon" href="image/logo.jpg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ressources — NeXera</title>
+  <link rel="stylesheet" href="style2.css">
+  <link rel="icon" href="logo.jpg">
 </head>
-
-<body>
-
-<header>
-    <h1>NeXera</h1>
-</header>
-
-<nav>
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About us</a></li>
-        <li><a href="document2.html">Document</a></li>
-         <li><a href="challenge.html">Challenges</a></li>
-    </ul>
-</nav>
-
- <h2>Documents</h2>
-    <p>Ici tu peux ajouter tes ressources, PDF ou articles.</p>
-
-
-<section class="section">
-    <div class="card">
-    <h3>Connaissance est la seule chose qui multiplie quand on la partage!</h3>
-    <a href="Documents N">Nos seances</a>
-    
-    
+<body data-requires-auth="true">
+  <div class="app-layout">
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <img class="brand-logo" src="logo.jpg" alt="Logo NeXera">
+        <h1>NeXera</h1>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="dashboard.html">Mon parcours</a></li>
+          <li><a href="document2.html" aria-current="page">Ressources</a></li>
+          <li><a href="challenge.html">Défis</a></li>
+          <li><a href="about.html">À propos</a></li>
+          <li><a href="community.html">Communauté</a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <ul class="sidebar-footer-links">
+          <li><a href="account.html">Mon compte</a></li>
+        </ul>
+        <button id="logoutButton" class="button">Déconnexion</button>
+      </div>
+    </aside>
+    <div class="app-content-wrapper">
+      <main>
+        <section class="section">
+          <h2>Ressources</h2>
+          <p>Des lectures et présentations pour nourrir ta réflexion, construire de meilleures habitudes et prendre soin de ta santé mentale.</p>
+          <div class="card"><h3>Nos séances</h3><p>Retrouve les documents et présentations créés pour la communauté NeXera.</p><a href="Documents%20N/index.html">Explorer les documents</a></div>
+        </section>
+      </main>
+      <footer><p>© 2026 NeXera — Tous droits réservés</p></footer>
     </div>
-</section>
-
-<script src="script.js"></script>
-
-<footer>
-    <p>© 2026 NeXera - Tous droits réservés</p>
-</footer>
-
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
 </body>
 </html>

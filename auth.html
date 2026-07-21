@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Connexion et création de compte NeXera.">
+  <title>Connexion — NeXera</title>
+  <link rel="stylesheet" href="style2.css">
+  <link rel="icon" href="logo.jpg">
+</head>
+<body>
+  <header><h1>NeXera</h1><img class="brand-logo" src="logo.jpg" alt="Logo NeXera"></header>
+  <main class="auth-page">
+    <section class="auth-intro"><p class="eyebrow">Bienvenue dans NeXera</p><h2>Ton évolution mérite un espace à toi.</h2><p class="muted">Crée ton compte ou connecte-toi pour entrer dans ton espace personnel.</p><ul><li>Visualise tes progrès</li><li>Garde tes défis et ton journal</li><li>Construis une pratique régulière</li></ul></section>
+    <section class="auth-card" aria-labelledby="auth-title">
+      <div class="auth-tabs" role="tablist"><button type="button" class="auth-tab is-active" id="loginTab" role="tab" aria-selected="true" onclick="showAuthForm('login')">Connexion</button><button type="button" class="auth-tab" id="signupTab" role="tab" aria-selected="false" onclick="showAuthForm('signup')">Créer un compte</button></div>
+      <div id="authMessage" class="auth-message" role="status" aria-live="polite"></div>
+      <form id="loginForm" onsubmit="login(event)"><h2 id="auth-title">Content de te revoir.</h2><p class="muted">Connecte-toi pour reprendre ton parcours.</p><label for="loginEmail">E-mail</label><input id="loginEmail" type="email" autocomplete="email" placeholder="toi@exemple.com" required><label for="loginPassword">Mot de passe</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Ton mot de passe" required><button type="submit">Se connecter</button></form>
+      <form id="signupForm" class="is-hidden" onsubmit="signUp(event)"><h2>Commence aujourd’hui.</h2><p class="muted">Quelques secondes suffisent pour créer ton espace personnel.</p><label for="signupName">Prénom</label><input id="signupName" type="text" autocomplete="given-name" placeholder="Ton prénom" required><label for="signupEmail">E-mail</label><input id="signupEmail" type="email" autocomplete="email" placeholder="toi@exemple.com" required><label for="signupPassword">Mot de passe</label><input id="signupPassword" type="password" autocomplete="new-password" minlength="6" placeholder="6 caractères minimum" required><button type="submit">Créer mon compte</button></form>
+    </section>
+  </main>
+  <footer><p>© 2026 NeXera — Tous droits réservés</p></footer>
+  <script type="module" src="script.js"></script>
+</body>
+</html>

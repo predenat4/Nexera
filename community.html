@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Communauté — NeXera</title>
+  <link rel="stylesheet" href="style2.css">
+  <link rel="icon" href="logo.jpg">
+</head>
+<body data-requires-auth="true">
+  <div class="app-layout">
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <img class="brand-logo" src="logo.jpg" alt="Logo NeXera">
+        <h1>NeXera</h1>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="dashboard.html">Mon parcours</a></li>
+          <li><a href="document2.html">Ressources</a></li>
+          <li><a href="challenge.html">Défis</a></li>
+          <li><a href="about.html">À propos</a></li>
+          <li><a href="community.html" aria-current="page">Communauté</a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <ul class="sidebar-footer-links">
+          <li><a href="account.html">Mon compte</a></li>
+        </ul>
+        <button id="logoutButton" class="button">Déconnexion</button>
+      </div>
+    </aside>
+    <div class="app-content-wrapper">
+      <main>
+        <section class="section">
+          <h2>Espace Communautaire</h2>
+          <textarea id="postContent" placeholder="Partagez une victoire ou une pensée avec la communauté..."></textarea>
+          <button id="submitPost" class="button">Publier</button>
+        </section>
+        <section class="section" id="postsContainer">
+          <h2>Flux</h2>
+          <!-- Posts will appear here -->
+        </section>
+      </main>
+      <footer><p>© 2026 NeXera — Tous droits réservés</p></footer>
+    </div>
+  </div>
+  <script type="module">
+    import { fetchPosts, addPost } from './script.js';
+
+    const postsContainer = document.getElementById('postsContainer');
+    const postContent = document.getElementById('postContent');
+    const submitPost = document.getElementById('submitPost');
+
+    async function loadPosts() {
+      const posts = await fetchPosts();
+      postsContainer.innerHTML = '<h2>Flux</h2>' + (posts.length > 0 ? posts.map(post => `
+        <div class="card" style="margin-top: 10px;">
+          <p><strong>${post.profiles?.name || 'Anonyme'}</strong>: ${post.content}</p>
+        </div>
+      `).join('') : '<p>Aucune publication pour le moment.</p>');
+    }
+
+    submitPost.onclick = async () => {
+      if (!postContent.value.trim()) return;
+      await addPost(postContent.value);
+      postContent.value = '';
+      await loadPosts();
+    };
+
+    loadPosts();
+  </script>
+</body>
+</html>

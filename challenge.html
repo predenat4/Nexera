@@ -2,58 +2,56 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Challenges</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Défis — NeXera</title>
   <link rel="stylesheet" href="style2.css">
-  
-<nav>
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About us</a></li>
-        <li><a href="document2.html">Document</a></li>
-         <li><a href="challenge.html">Challenges</a></li>
-    </ul>
-</nav>
-
+  <link rel="icon" href="logo.jpg">
 </head>
-<body>
-<header>
-  <h1>Challenges & Mind Games</h1>
-</header>
-<section class="section">
-  <h2>🔥Progression</h2>
-  <p id="xpDisplay">XP: 0</p>
-  <p id="levelDisplay">Niveau: 1 (Beginner)</p>
-</section>
-<section class="section">
-  <h3>Challenge 7 jours</h3>
-  <button onclick="completeChallenge()">Valider journee</button>
-  <p id="progress">0/7</p>
-</section>
- 
-<section class="section">
-  <h2>Mini Game : Choix de vie</h2>
-  <p>Tu échoues. Que fais-tu ?</p>
-  <button onclick="lifeChoice('retry')">Réessayer</button>
-  <button onclick="lifeChoice('quit')">Abandonner</button>
-  <p id="gameResult"></p>
-</section>
-
-<section class="section">
-  <h2>Journal Intime</h2>
-  <p>Écris ce que tu ressens vraiment :</p>
-  <textarea id="journalInput" placeholder="Tes pensées..."></textarea>
-  <button onclick="saveJournal()">Sauvegarder</button>
-  <button onclick="loadJournal()">Voir mes écrits</button>
-  <p id="journalDisplay"></p>
-</section>
-
-<section class="section">
-  <h2>Questions Introspectives</h2>
-  <p id="questionBox">Clique pour commencer</p>
-  <button onclick="newQuestion()">Nouvelle question</button>
-  <textarea id="answerBox" placeholder="Réponds ici..."></textarea>
-</section>
-
-<script src="script.js"></script>
+<body data-requires-auth="true">
+  <div class="app-layout">
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <img class="brand-logo" src="logo.jpg" alt="Logo NeXera">
+        <h1>NeXera</h1>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="dashboard.html">Mon parcours</a></li>
+          <li><a href="document2.html">Ressources</a></li>
+          <li><a href="challenge.html" aria-current="page">Défis</a></li>
+          <li><a href="about.html">À propos</a></li>
+          <li><a href="community.html">Communauté</a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <ul class="sidebar-footer-links">
+          <li><a href="account.html">Mon compte</a></li>
+        </ul>
+        <button id="logoutButton" class="button">Déconnexion</button>
+      </div>
+    </aside>
+    <div class="app-content-wrapper">
+      <main>
+        <section class="section"><h2>Progression</h2><p id="xpDisplay">XP : 0</p><p id="levelDisplay">Niveau : 1 — Débutant</p></section>
+        <section class="section"><h3>Défi de 7 jours</h3><p>Fais un petit pas chaque jour : la régularité crée le changement.</p><button type="button" onclick="completeChallenge()">Valider ma journée</button><p id="progress">0/7</p></section>
+        <section class="section"><h2>Mini-jeu : choix de vie</h2><p>Tu échoues. Que fais-tu ?</p><button type="button" onclick="lifeChoice('retry')">Réessayer</button><button type="button" onclick="lifeChoice('quit')">Abandonner</button><p id="gameResult"></p></section>
+        <section class="section">
+          <h2>Journal intime</h2>
+          <p>Écris ce que tu ressens vraiment.</p>
+          <textarea id="journalInput" placeholder="Tes pensées..."></textarea>
+          <button type="button" onclick="handleSaveJournal()">Sauvegarder</button>
+          <button type="button" onclick="displayJournalEntries(3)">Voir mes 3 dernières réflexions</button>
+          <a href="my-journals.html" class="button">Voir tous mes écrits</a>
+          <h3>Mes dernières réflexions</h3>
+          <div id="journalEntriesList"></div>
+        </section>
+        <section class="section"><h2>Question introspective</h2><p id="questionBox">Clique pour commencer.</p><button type="button" onclick="newQuestion()">Nouvelle question</button><textarea id="answerBox" placeholder="Réponds ici..."></textarea></section>
+      </main>
+      <footer><p>© 2026 NeXera — Tous droits réservés</p></footer>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
 </body>
 </html>

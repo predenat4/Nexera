@@ -1,41 +1,69 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>NeXera-Home</title>
-    <link rel="stylesheet" href="style2.css">
-    <link rel="icon" href="logo.jpg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NeXera, la plateforme pour apprendre, pratiquer et grandir chaque jour.">
+  <title>NeXera — Ton parcours de croissance</title>
+  <link rel="stylesheet" href="style2.css">
+  <link rel="icon" href="logo.jpg">
 </head>
+<body data-requires-auth="true">
+  <div class="app-layout">
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <img class="brand-logo" src="logo.jpg" alt="Logo NeXera">
+        <h1>NeXera</h1>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="index.html" aria-current="page">Accueil</a></li>
+          <li><a href="dashboard.html">Mon parcours</a></li>
+          <li><a href="document2.html">Ressources</a></li>
+          <li><a href="challenge.html">Défis</a></li>
+          <li><a href="about.html">À propos</a></li>
+          <li><a href="community.html">Communauté</a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <ul class="sidebar-footer-links">
+          <li><a href="account.html">Mon compte</a></li>
+        </ul>
+        <button id="logoutButton" class="button">Déconnexion</button>
+      </div>
+    </aside>
+    <div class="app-content-wrapper">
+      <main>
+        <section class="hero hero-v2">
+          <div>
+            <p class="eyebrow">Ton espace de croissance</p>
+            <h2>Construis la personne que tu veux devenir.</h2>
+            <p>Apprends, passe à l’action et visualise les progrès qui comptent vraiment.</p>
+            <div class="hero-actions"><a class="button" href="dashboard.html">Continuer mon parcours</a><a class="text-link" href="document2.html">Découvrir les ressources <span aria-hidden="true">→</span></a></div>
+          </div>
+          <aside class="daily-card" aria-label="Inspiration du jour"><p class="eyebrow">Inspiration du jour</p><blockquote id="dailyQuote">La constance transforme les petites actions en grandes évolutions.</blockquote><p id="quoteAuthor">— NeXera</p><div class="daily-line"></div><p class="muted">Un pas aujourd’hui vaut mieux qu’une intention demain.</p></aside>
+        </section>
 
-<body>
+        <section class="home-section" aria-labelledby="continue-title">
+          <div class="section-heading"><div><p class="eyebrow">Ton rythme</p><h2 id="continue-title">Reprendre là où tu t’es arrêté</h2></div><a class="text-link" href="dashboard.html">Voir mon tableau de bord →</a></div>
+          <div class="continue-card"><div class="progress-ring" id="homeProgressRing"><span id="homeProgressValue">0%</span></div><div><p class="eyebrow">Parcours en cours</p><h3>Fondations de la discipline</h3><p class="muted">Apprends à créer des habitudes qui restent, une action à la fois.</p><div class="progress-bar" aria-label="Progression"><span id="homeProgressBar"></span></div><p class="progress-label" id="homeProgressLabel">0 % terminé</p></div><a class="button" href="dashboard.html">Reprendre</a></div>
+        </section>
 
-<header>
+        <section class="home-section" aria-labelledby="week-title">
+          <div class="section-heading"><div><p class="eyebrow">Passe à l’action</p><h2 id="week-title">Défi de la semaine</h2></div><span class="status-pill" id="challengeStatus">À commencer</span></div>
+          <div class="challenge-feature"><div><p class="challenge-number">07</p><h3>Sept jours de présence</h3><p class="muted">Chaque matin, prends 10 minutes sans écran pour écrire, respirer ou planifier ta journée.</p><p class="challenge-progress" id="homeChallengeProgress">0 / 7 jours validés</p></div><button type="button" id="homeChallengeButton" onclick="completeChallenge()">Valider aujourd’hui</button></div>
+        </section>
 
-    <h1><b>NeXera</b></h1>
-    <img src="logo.jpg" width="300" length="300">
-</header>
-<nav>
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">A propos</a></li>
-        <li><a href="document2.html">Document</a></li>
-        <li><a href="challenge.html">Challenges</a></li>
-    </ul>
-</nav>
+        <section class="home-section" aria-labelledby="episodes-title">
+          <div class="section-heading"><div><p class="eyebrow">Bibliothèque</p><h2 id="episodes-title">À explorer maintenant</h2></div><a class="text-link" href="document2.html">Toutes les ressources →</a></div>
+          <div class="content-grid"><article class="content-card"><span>LECTURE</span><h3>Les 7 habitudes</h3><p>Des principes simples pour reprendre le contrôle de ton quotidien.</p><a href="Documents%20N/Les%207%20habitudes%20-%20Stephen%20Covey.pdf">Lire le document →</a></article><article class="content-card"><span>RÉFLEXION</span><h3>Les quatre accords</h3><p>Un guide pour communiquer avec plus de liberté et de conscience.</p><a href="Documents%20N/Présentation%20sur%20les%204%20accords%20toltèques.pdf">Explorer →</a></article><article class="content-card"><span>SANTÉ MENTALE</span><h3>Prendre soin de soi</h3><p>Quelques repères pour mieux comprendre son équilibre intérieur.</p><a href="Documents%20N/Prezante-sante-mantal.pdf">Découvrir →</a></article></div>
+        </section>
 
-<section class="hero">
-    <h2><b>Bienvenue sur NeXera<b></b></h2> 
-    <img src="middle.jpg">
-
-    <p>Ton évolution commence ici.</p>
-    <p>Lire , Reflechir, grandir</p>
-</section>
-
-<script src="script.js"></script>
-
-<footer>
-    <p>© 2026 NeXera - Tous droits réservés</p>
-</footer>
-
+        <section class="community-strip" aria-label="Communauté NeXera"><div><p class="eyebrow">Ensemble, plus loin</p><h2>Une communauté qui choisit de grandir.</h2></div><div class="community-stats"><p><strong>1 240</strong><span>membres engagés</span></p><p><strong id="communityChallenges">3 870</strong><span>défis complétés</span></p><p><strong>8 600 h</strong><span>d’apprentissage</span></p></div></section>
+      </main>
+      <footer><p>© 2026 NeXera — Tous droits réservés</p></footer>
+    </div>
+  </div>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
