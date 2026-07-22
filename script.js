@@ -40,7 +40,7 @@ async function fetchProfileFromSupabase(uid) {
         lastChallengeDate: data.last_challenge_date || "",
         weeklyCompletions: data.weekly_completions || 0,
         monthlyCompletions: data.monthly_completions || 0,
-        annualCompletions: data.anual_cpmpletions || 0 // Correction ici pour mapper la faute de frappe
+        annualCompletions: data.anual_cpmpletions || 0 // Utilisation du nom exact de la colonne
     };
   } catch (error) {
     console.warn("Supabase fetch failed, using local fallback. Error:", error);
@@ -64,7 +64,7 @@ async function saveProfileToSupabase(uid, profile) {
         journal: profile.journal,
         weekly_completions: profile.weeklyCompletions,
         monthly_completions: profile.monthlyCompletions,
-        annual_completions: profile.annualCompletions
+        anual_cpmpletions: profile.annualCompletions // Utilisation du nom exact de la colonne
       });
     if (error) throw error;
   } catch (error) {
