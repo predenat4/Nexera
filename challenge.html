@@ -8,49 +8,54 @@
   <link rel="icon" href="logo.jpg">
 </head>
 <body data-requires-auth="true">
-  <div class="app-layout">
-    <aside class="app-sidebar">
-      <div class="sidebar-header">
-        <img class="brand-logo" src="logo.jpg" alt="Logo NeXera">
-        <h1>NeXera</h1>
-      </div>
-      <nav class="sidebar-nav">
-        <ul>
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="dashboard.html">Mon parcours</a></li>
-          <li><a href="document2.html">Ressources</a></li>
-          <li><a href="challenge.html" aria-current="page">Défis</a></li>
-          <li><a href="about.html">À propos</a></li>
-          <li><a href="community.html">Communauté</a></li>
-        </ul>
-      </nav>
-      <div class="sidebar-footer">
-        <ul class="sidebar-footer-links">
-          <li><a href="account.html">Mon compte</a></li>
-        </ul>
-        <button id="logoutButton" class="button">Déconnexion</button>
-      </div>
-    </aside>
-    <div class="app-content-wrapper">
-      <main>
-        <section class="section"><h2>Progression</h2><p id="xpDisplay">XP : 0</p><p id="levelDisplay">Niveau : 1 — Débutant</p></section>
-        <section class="section"><h3>Défi de 7 jours</h3><p>Fais un petit pas chaque jour : la régularité crée le changement.</p><button type="button" onclick="completeChallenge()">Valider ma journée</button><p id="progress">0/7</p></section>
-        <section class="section"><h2>Mini-jeu : choix de vie</h2><p>Tu échoues. Que fais-tu ?</p><button type="button" onclick="lifeChoice('retry')">Réessayer</button><button type="button" onclick="lifeChoice('quit')">Abandonner</button><p id="gameResult"></p></section>
-        <section class="section">
-          <h2>Journal intime</h2>
-          <p>Écris ce que tu ressens vraiment.</p>
-          <textarea id="journalInput" placeholder="Tes pensées..."></textarea>
-          <button type="button" onclick="handleSaveJournal()">Sauvegarder</button>
-          <button type="button" onclick="displayJournalEntries(3)">Voir mes 3 dernières réflexions</button>
-          <a href="my-journals.html" class="button">Voir tous mes écrits</a>
-          <h3>Mes dernières réflexions</h3>
-          <div id="journalEntriesList"></div>
-        </section>
-        <section class="section"><h2>Question introspective</h2><p id="questionBox">Clique pour commencer.</p><button type="button" onclick="newQuestion()">Nouvelle question</button><textarea id="answerBox" placeholder="Réponds ici..."></textarea></section>
-      </main>
-      <footer><p>© 2026 NeXera — Tous droits réservés</p></footer>
+  <header class="top-header">
+    <div class="header-left">
+      <img class="brand-logo" src="logo.jpg" alt="Logo NeXera">
+      <h1 class="header-title">NeXera</h1>
     </div>
-  </div>
+    <nav class="top-nav desktop-only">
+      <ul>
+        <li><a href="index.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>Accueil</a></li>
+        <li><a href="dashboard.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>Mon parcours</a></li>
+        <li><a href="document2.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>Ressources</a></li>
+        <li><a href="challenge.html" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>Défis</a></li>
+        <li><a href="about.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>À propos</a></li>
+        <li><a href="community.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Communauté</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions desktop-only">
+      <a href="account.html" class="button-secondary">Mon compte</a>
+    </div>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  </header>
+  <nav class="mobile-nav">
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="dashboard.html">Mon parcours</a></li>
+      <li><a href="document2.html">Ressources</a></li>
+      <li><a href="challenge.html">Défis</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="community.html">Communauté</a></li>
+      <li><a href="account.html">Mon compte</a></li>
+    </ul>
+  </nav>
+  <main>
+    <section class="section"><h2>Progression</h2><p id="xpDisplay">XP : 0</p><p id="levelDisplay">Niveau : 1 — Débutant</p></section>
+    <section class="section"><h3>Défi de 7 jours</h3><p>Fais un petit pas chaque jour : la régularité crée le changement.</p><button type="button" onclick="completeChallenge()">Valider ma journée</button><p id="progress">0/7</p></section>
+    <section class="section"><h2>Mini-jeu : choix de vie</h2><p>Tu échoues. Que fais-tu ?</p><button type="button" onclick="lifeChoice('retry')">Réessayer</button><button type="button" onclick="lifeChoice('quit')">Abandonner</button><p id="gameResult"></p></section>
+    <section class="section">
+      <h2>Journal intime</h2>
+      <p>Écris ce que tu ressens vraiment.</p>
+      <textarea id="journalInput" placeholder="Tes pensées..."></textarea>
+      <button type="button" onclick="handleSaveJournal()">Sauvegarder</button>
+      <button type="button" onclick="displayJournalEntries(3)">Voir mes 3 dernières réflexions</button>
+      <a href="my-journals.html" class="button">Voir tous mes écrits</a>
+      <h3>Mes dernières réflexions</h3>
+      <div id="journalEntriesList"></div>
+    </section>
+    <section class="section"><h2>Question introspective</h2><p id="questionBox">Clique pour commencer.</p><button type="button" onclick="newQuestion()">Nouvelle question</button><textarea id="answerBox" placeholder="Réponds ici..."></textarea></section>
+  </main>
+  <footer><p>© 2026 NeXera — Tous droits réservés</p></footer>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="script.js"></script>
 </body>

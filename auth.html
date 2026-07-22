@@ -9,7 +9,12 @@
   <link rel="icon" href="logo.jpg">
 </head>
 <body>
-  <header><h1>NeXera</h1><img class="brand-logo" src="logo.jpg" alt="Logo NeXera"></header>
+  <header class="top-header" style="justify-content: center;">
+    <div class="header-left">
+      <img class="brand-logo" src="logo.jpg" alt="Logo NeXera">
+      <h1 class="header-title">NeXera</h1>
+    </div>
+  </header>
   <main class="auth-page">
     <section class="auth-intro"><p class="eyebrow">Bienvenue dans NeXera</p><h2>Ton évolution mérite un espace à toi.</h2><p class="muted">Crée ton compte ou connecte-toi pour entrer dans ton espace personnel.</p><ul><li>Visualise tes progrès</li><li>Garde tes défis et ton journal</li><li>Construis une pratique régulière</li></ul></section>
     <section class="auth-card" aria-labelledby="auth-title">
@@ -20,6 +25,7 @@
     </section>
   </main>
   <footer><p>© 2026 NeXera — Tous droits réservés</p></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script type="module" src="script.js"></script>
 </body>
 </html>

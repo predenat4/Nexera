@@ -1,6 +1,13 @@
+window.toggleMenu = function() {
+    const nav = document.querySelector('.mobile-nav');
+    nav.classList.toggle('is-open');
+};
+
 // Initialisation de Supabase
-if (!window.supabaseClient) {
-  window.supabaseClient = window.supabase.createClient("https://xgyxmumkgxcangelvrri.supabase.co", "sb_publishable_iCPhtt12seUCDeWNbpmcLw_29nVb1WM");
+// Use global 'supabase' if window.supabaseClient is not set, or check global scope
+const supabaseInstance = window.supabase || supabase;
+if (!window.supabaseClient && supabaseInstance) {
+  window.supabaseClient = supabaseInstance.createClient("https://xgyxmumkgxcangelvrri.supabase.co", "sb_publishable_iCPhtt12seUCDeWNbpmcLw_29nVb1WM");
 }
 var supabase = window.supabaseClient;
 
@@ -18,7 +25,13 @@ async function fetchProfileFromSupabase(uid) {
       .single();
 
     if (error) throw error;
-    return data;
+    // Remapping snake_case to camelCase
+    return {
+        ...data,
+        challengeDays: data.challenge_days,
+        completedChallenges: data.completed_challenges,
+        lastChallengeDate: data.last_challenge_date
+    };
   } catch (error) {
     console.warn("Supabase fetch failed, using local fallback:", error);
     return null;
@@ -29,10 +42,23 @@ async function saveProfileToSupabase(uid, profile) {
   try {
     const { error } = await supabase
       .from('profiles')
-      .upsert({ id: uid, ...profile });
+      .upsert({ 
+        id: uid, 
+        name: profile.name,
+        email: profile.email,
+        progress: profile.progress,
+        challenge_days: profile.challengeDays,
+        completed_challenges: profile.completedChallenges,
+        streak: profile.streak,
+        last_challenge_date: profile.lastChallengeDate,
+        journal: profile.journal
+      });
     if (error) throw error;
   } catch (error) {
     console.error("Supabase save failed:", error);
+    if (error && typeof error === 'object') {
+        console.error("Error details:", JSON.stringify(error, null, 2));
+    }
   }
 }
 
@@ -294,6 +320,16 @@ document.addEventListener("DOMContentLoaded", () => {
   setDailyQuote();
   updateInterface();
   syncSupabaseSession();
+
+  // Attachement des événements pour dashboard.html
+  const completeChallengeBtn = document.getElementById("completeChallengeBtn");
+  if (completeChallengeBtn) completeChallengeBtn.addEventListener("click", completeChallenge);
+
+  const saveJournalBtn = document.getElementById("saveJournalBtn");
+  if (saveJournalBtn) saveJournalBtn.addEventListener("click", saveQuickJournal);
+  
+  const addProgressBtn = document.getElementById("addProgressBtn");
+  if (addProgressBtn) addProgressBtn.addEventListener("click", addLearningProgress);
 });
 
 // Exposer les fonctions au scope global pour les appels onclick dans le HTML
