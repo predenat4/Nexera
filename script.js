@@ -24,16 +24,26 @@ async function fetchProfileFromSupabase(uid) {
       .eq('id', uid)
       .single();
 
-    if (error) throw error;
+    if (error) {
+        console.error("Erreur Supabase lors du fetch:", error);
+        throw error;
+    }
+    
+    // TRACE POUR DEBUG : Voir ce que la base de données renvoie vraiment
+    console.log("Données brutes reçues de Supabase:", data);
+
     // Remapping snake_case to camelCase
     return {
         ...data,
         challengeDays: data.challenge_days,
         completedChallenges: data.completed_challenges,
-        lastChallengeDate: data.last_challenge_date
+        lastChallengeDate: data.last_challenge_date,
+        weeklyCompletions: data.weekly_completions,
+        monthlyCompletions: data.monthly_completions,
+        annualCompletions: data.annual_completions
     };
   } catch (error) {
-    console.warn("Supabase fetch failed, using local fallback:", error);
+    console.warn("Supabase fetch failed, using local fallback. Error:", error);
     return null;
   }
 }
@@ -51,7 +61,10 @@ async function saveProfileToSupabase(uid, profile) {
         completed_challenges: profile.completedChallenges,
         streak: profile.streak,
         last_challenge_date: profile.lastChallengeDate,
-        journal: profile.journal
+        journal: profile.journal,
+        weekly_completions: profile.weeklyCompletions,
+        monthly_completions: profile.monthlyCompletions,
+        annual_completions: profile.annualCompletions
       });
     if (error) throw error;
   } catch (error) {
@@ -67,7 +80,10 @@ const defaultProfile = {
   challengeDays: 0,
   completedChallenges: 0,
   streak: 0,
-  lastChallengeDate: ""
+  lastChallengeDate: "",
+  weeklyCompletions: 0,
+  monthlyCompletions: 0,
+  annualCompletions: 0
 };
 
 async function getProfile() {
@@ -111,16 +127,6 @@ function setWidth(id, value) {
   if (element) element.style.width = `${value}%`;
 }
 
-async function updateInterface() {
-  const profile = await getProfile();
-  // ... (code existant)
-
-  // Statistiques communautaires réelles
-  fetchAndSetCommunityStats();
-
-  // ... (suite du code existant)
-}
-
 async function fetchAndSetCommunityStats() {
     const { count: membersCount, error: membersError } = await supabase
         .from('profiles')
@@ -133,20 +139,55 @@ async function fetchAndSetCommunityStats() {
     if (!membersError) setText("totalMembers", (membersCount || 0).toLocaleString("fr-FR"));
     if (!journalsError) {
         setText("totalChallenges", (journalsCount || 0).toLocaleString("fr-FR"));
-        setText("totalLearningHours", Math.floor((journalsCount || 0) * 0.75).toLocaleString("fr-FR")); // Estimation arbitraire pour l'exemple
+        setText("totalLearningHours", Math.floor((journalsCount || 0) * 0.75).toLocaleString("fr-FR")); 
     }
 }
+
+async function updateInterface() {
+  const profile = await getProfile();
+  const level = Math.max(1, Math.floor(profile.progress / 20) + 1);
+  const currentUser = getCurrentUser();
+  const challengeComplete = profile.challengeDays >= 7;
+
+  // Mise à jour de l'interface existante
+  setText("homeProgressValue", `${profile.progress}%`);
+  setText("homeProgressLabel", `${profile.progress} % terminé`);
+  setWidth("homeProgressBar", profile.progress);
+  const ring = document.getElementById("homeProgressRing");
+  if (ring) ring.style.setProperty("--progress", `${profile.progress * 3.6}deg`);
+
+  setText("homeChallengeProgress", `${profile.challengeDays} / 7 jours validés`);
+  setText("challengeStatus", challengeComplete ? "Terminé" : `${profile.challengeDays}/7 jours`);
+  setText("progress", `${profile.challengeDays}/7`);
+  setText("communityChallenges", (3870 + profile.completedChallenges).toLocaleString("fr-FR"));
+
+  setText("levelValue", level);
   setText("dashboardGreeting", currentUser ? `Bonjour, ${currentUser.name}.` : "Bonjour, bâtisseur.");
   setText("levelLabel", level === 1 ? "Explorateur" : "En progression");
   setText("dashboardProgress", `${profile.progress}%`);
   setText("dashboardPercent", `${profile.progress} %`);
   setText("completedChallenges", profile.completedChallenges);
   setText("streakValue", `${profile.streak} j`);
-  setText("dashboardChallengeText", `${profile.challengeDays} jour${profile.challengeDays > 1 ? "s" : ""} validé${profile.challengeDays > 1 ? "s" : ""} sur 7`);
-  setWidth("dashboardProgressBar", profile.progress);
+  
+  // Statistiques communautaires réelles
+  fetchAndSetCommunityStats();
+
+  // Mise à jour des barres de progression dynamiques
+  const weeklyPerc = Math.min(100, Math.floor((profile.weeklyCompletions / 7) * 100));
+  const monthlyPerc = Math.min(100, Math.floor((profile.monthlyCompletions / 30) * 100));
+  const annualPerc = Math.min(100, Math.floor((profile.annualCompletions / 365) * 100));
+
+  setWidth("weeklyProgressBar", weeklyPerc);
+  setText("weeklyProgressLabel", `${weeklyPerc}%`);
+
+  setWidth("monthlyProgressBar", monthlyPerc);
+  setText("monthlyProgressLabel", `${monthlyPerc}%`);
+
+  setWidth("annualProgressBar", annualPerc);
+  setText("annualProgressLabel", `${annualPerc}%`);
 
   const journal = document.getElementById("quickJournal");
-  if (journal && !journal.value) journal.value = profile.journal;
+  if (journal && !journal.value) journal.value = profile.journal || "";
 }
 
 async function completeChallenge() {
@@ -163,6 +204,12 @@ async function completeChallenge() {
     profile.progress = Math.min(100, profile.progress + 4);
     profile.streak += 1;
     profile.lastChallengeDate = today;
+    
+    // Incrementer les nouvelles statistiques
+    profile.weeklyCompletions += 1;
+    profile.monthlyCompletions += 1;
+    profile.annualCompletions += 1;
+    
     if (profile.challengeDays === 7) profile.completedChallenges += 1;
     await saveProfile(profile);
   }
@@ -175,6 +222,12 @@ async function completeChallenge() {
 async function addLearningProgress() {
   const profile = await getProfile();
   profile.progress = Math.min(100, profile.progress + 8);
+  
+  // Incrementer les nouvelles statistiques
+  profile.weeklyCompletions += 1;
+  profile.monthlyCompletions += 1;
+  profile.annualCompletions += 1;
+  
   await saveProfile(profile);
   await updateInterface();
 }

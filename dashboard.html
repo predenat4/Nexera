@@ -66,20 +66,31 @@
         <article class="panel panel-large">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">Parcours actuel</p>
-              <h2>Fondations de la discipline</h2>
+              <p class="eyebrow">Progression dynamique</p>
+              <h2>Évolution personnelle</h2>
             </div>
-            <span id="dashboardPercent">0 %</span>
           </div>
-          <div class="progress-bar progress-large"><span id="dashboardProgressBar"></span></div>
-          <p class="muted">Continue avec une petite action : elle alimentera ta progression.</p>
-          <button type="button" id="addProgressBtn">J’ai terminé une étape</button>
+          <div class="progress-section" style="margin-bottom: 20px;">
+            <p class="eyebrow">Hebdomadaire</p>
+            <div class="progress-bar"><span id="weeklyProgressBar"></span></div>
+            <p class="progress-label" id="weeklyProgressLabel">0%</p>
+          </div>
+          <div class="progress-section" style="margin-bottom: 20px;">
+            <p class="eyebrow">Mensuelle</p>
+            <div class="progress-bar"><span id="monthlyProgressBar"></span></div>
+            <p class="progress-label" id="monthlyProgressLabel">0%</p>
+          </div>
+          <div class="progress-section">
+            <p class="eyebrow">Annuelle</p>
+            <div class="progress-bar"><span id="annualProgressBar"></span></div>
+            <p class="progress-label" id="annualProgressLabel">0%</p>
+          </div>
         </article>
         <article class="panel">
-          <p class="eyebrow">Objectif de la semaine</p>
-          <h3>7 jours de présence</h3>
-          <p class="muted" id="dashboardChallengeText">0 jour validé sur 7</p>
-          <button type="button" id="completeChallengeBtn">Valider aujourd’hui</button>
+          <p class="eyebrow">Objectif actuel</p>
+          <h3>Valider mon activité</h3>
+          <p class="muted">Chaque action compte pour ta progression.</p>
+          <button type="button" id="completeChallengeBtn" style="margin-top: 10px;">Valider aujourd’hui</button>
         </article>
         <article class="panel">
           <p class="eyebrow">Journal</p>
