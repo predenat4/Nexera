@@ -173,8 +173,11 @@ async function updateInterface() {
   fetchAndSetCommunityStats();
 
   // Mise à jour des barres de progression dynamiques
+  const now = new Date();
+  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  
   const weeklyPerc = Math.min(100, Math.floor((profile.weeklyCompletions / 7) * 100));
-  const monthlyPerc = Math.min(100, Math.floor((profile.monthlyCompletions / 30) * 100));
+  const monthlyPerc = Math.min(100, Math.floor((profile.monthlyCompletions / daysInMonth) * 100));
   const annualPerc = Math.min(100, Math.floor((profile.annualCompletions / 365) * 100));
 
   setWidth("weeklyProgressBar", weeklyPerc);
