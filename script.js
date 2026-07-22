@@ -172,6 +172,9 @@ async function updateInterface() {
   // Statistiques communautaires réelles
   fetchAndSetCommunityStats();
 
+  // TRACE POUR DEBUG : Voir le profil final après mapping
+  console.log("Profil après mapping pour mise à jour interface:", profile);
+
   // Mise à jour des barres de progression dynamiques
   const now = new Date();
   const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
