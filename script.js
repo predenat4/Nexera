@@ -35,12 +35,12 @@ async function fetchProfileFromSupabase(uid) {
     // Remapping snake_case to camelCase
     return {
         ...data,
-        challengeDays: data.challenge_days,
-        completedChallenges: data.completed_challenges,
-        lastChallengeDate: data.last_challenge_date,
-        weeklyCompletions: data.weekly_completions,
-        monthlyCompletions: data.monthly_completions,
-        annualCompletions: data.annual_completions
+        challengeDays: data.challenge_days || 0,
+        completedChallenges: data.completed_challenges || 0,
+        lastChallengeDate: data.last_challenge_date || "",
+        weeklyCompletions: data.weekly_completions || 0,
+        monthlyCompletions: data.monthly_completions || 0,
+        annualCompletions: data.anual_cpmpletions || 0 // Correction ici pour mapper la faute de frappe
     };
   } catch (error) {
     console.warn("Supabase fetch failed, using local fallback. Error:", error);
@@ -176,9 +176,9 @@ async function updateInterface() {
   const now = new Date();
   const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
   
-  const weeklyPerc = Math.min(100, Math.floor((profile.weeklyCompletions / 7) * 100));
-  const monthlyPerc = Math.min(100, Math.floor((profile.monthlyCompletions / daysInMonth) * 100));
-  const annualPerc = Math.min(100, Math.floor((profile.annualCompletions / 365) * 100));
+  const weeklyPerc = Math.min(100, Math.floor(((profile.weeklyCompletions || 0) / 7) * 100));
+  const monthlyPerc = Math.min(100, Math.floor(((profile.monthlyCompletions || 0) / daysInMonth) * 100));
+  const annualPerc = Math.min(100, Math.floor(((profile.annualCompletions || 0) / 365) * 100));
 
   setWidth("weeklyProgressBar", weeklyPerc);
   setText("weeklyProgressLabel", `${weeklyPerc}%`);
