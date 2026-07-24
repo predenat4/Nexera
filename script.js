@@ -86,6 +86,9 @@ const defaultProfile = {
   annualCompletions: 0
 };
 
+let profileCache = null;
+let profilePromise = null;
+
 async function getProfile() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
@@ -96,8 +99,20 @@ async function getProfile() {
     }
   }
 
-  const dbProfile = await fetchProfileFromSupabase(user.id);
-  return dbProfile ? { ...defaultProfile, ...dbProfile } : { ...defaultProfile };
+  // If a fetch is already in progress, return the same promise
+  if (profilePromise) return profilePromise;
+
+  profilePromise = (async () => {
+    try {
+      const dbProfile = await fetchProfileFromSupabase(user.id);
+      profileCache = dbProfile ? { ...defaultProfile, ...dbProfile } : { ...defaultProfile };
+      return profileCache;
+    } finally {
+      profilePromise = null;
+    }
+  })();
+  
+  return profilePromise;
 }
 
 async function saveProfile(profile) {
