@@ -93,7 +93,12 @@ async function getProfile() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     try {
-      return { ...defaultProfile, ...JSON.parse(localStorage.getItem(getProfileKey()) || "{}") };
+      const profile = { ...defaultProfile, ...JSON.parse(localStorage.getItem(getProfileKey()) || "{}") };
+      if (isNewWeek(profile.lastChallengeDate)) {
+        profile.challengeDays = 0;
+        localStorage.setItem(getProfileKey(), JSON.stringify(profile));
+      }
+      return profile;
     } catch {
       return { ...defaultProfile };
     }
@@ -105,7 +110,11 @@ async function getProfile() {
   profilePromise = (async () => {
     try {
       const dbProfile = await fetchProfileFromSupabase(user.id);
-      profileCache = dbProfile ? { ...defaultProfile, ...dbProfile } : { ...defaultProfile };
+      let profileCache = dbProfile ? { ...defaultProfile, ...dbProfile } : { ...defaultProfile };
+      if (isNewWeek(profileCache.lastChallengeDate)) {
+        profileCache.challengeDays = 0;
+        await saveProfile(profileCache);
+      }
       return profileCache;
     } finally {
       profilePromise = null;
@@ -209,6 +218,18 @@ async function updateInterface() {
 
   const journal = document.getElementById("quickJournal");
   if (journal && !journal.value) journal.value = profile.journal || "";
+}
+
+function isNewWeek(lastDateStr) {
+  if (!lastDateStr) return false;
+  const lastDate = new Date(lastDateStr);
+  const today = new Date();
+  const currentMonday = new Date(today);
+  const dayOfWeek = today.getDay();
+  const diff = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
+  currentMonday.setDate(today.getDate() - diff);
+  currentMonday.setHours(0, 0, 0, 0);
+  return lastDate < currentMonday;
 }
 
 async function completeChallenge() {
