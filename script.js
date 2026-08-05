@@ -434,8 +434,15 @@ document.addEventListener("DOMContentLoaded", () => {
   if (addProgressBtn) addProgressBtn.addEventListener("click", addLearningProgress);
 });
 
-// Exposer les fonctions au scope global pour les appels onclick dans le HTML
-window.showAuthForm = showAuthForm;
+window.fetchDocuments = async function() {
+  const { data, error } = await supabase.storage.from('documents').list();
+  if (error) {
+    console.error("Error listing documents:", error);
+    return [];
+  }
+  return data;
+};
+
 window.login = login;
 window.signUp = signUp;
 window.logout = logout;
@@ -591,4 +598,13 @@ window.addPost = async function addPost(content) {
     console.error("Error adding post:", error);
     alert("Erreur lors de la publication: " + error.message);
   }
+};
+
+window.fetchDocuments = async function() {
+  const { data, error } = await supabase.storage.from('documents').list();
+  if (error) {
+    console.error("Error listing documents:", error);
+    return [];
+  }
+  return data;
 };
