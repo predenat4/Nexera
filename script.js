@@ -1,3 +1,10 @@
+document.addEventListener('keydown', (e) => {
+  // Shortcut: Alt + Shift + A
+  if (e.altKey && e.shiftKey && e.key === 'A') {
+    window.location.href = 'admin-stats.html';
+  }
+});
+
 console.log("Script NeXera chargé et démarré");
 window.toggleMenu = function() {
     const nav = document.querySelector('.mobile-nav');
