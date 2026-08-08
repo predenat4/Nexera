@@ -1,3 +1,4 @@
+console.log("Script NeXera chargé et démarré");
 window.toggleMenu = function() {
     const nav = document.querySelector('.mobile-nav');
     nav.classList.toggle('is-open');
@@ -443,7 +444,21 @@ window.fetchDocuments = async function() {
   return data;
 };
 
+// Nouvelle fonction pour l'admin
+window.fetchAdminStats = async function(password) {
+  const { data, error } = await supabase.functions.invoke('verify-admin-access', {
+    body: { password }
+  });
+
+  if (error) {
+    console.error("Erreur Edge Function:", error);
+    throw new Error(error.message);
+  }
+  return data;
+};
+
 window.login = login;
+window.showAuthForm = showAuthForm;
 window.signUp = signUp;
 window.logout = logout;
 window.completeChallenge = completeChallenge;

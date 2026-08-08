@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Administrateur | NeXera</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --bg: #0d0f16;
+            --cyan: #4ec8ff;
+            --violet: #9b6bff;
+        }
+        *{box-sizing:border-box;margin:0;padding:0;}
+        html,body{height:100%;overflow:hidden;}
+        body{
+            display:flex;align-items:center;justify-content:center;
+            min-height:100vh;
+            position:relative;
+            padding:24px;
+            font-family:'Inter', -apple-system, sans-serif;
+            color:#f2f4f8;
+        }
+
+        /* Arrière-plan flouté */
+        .bg-img {
+            position: fixed;
+            inset: -20px;
+            background-image: url('arriereplan.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(15px);
+            z-index: -1;
+            transform: scale(1.1);
+        }
+
+        /* Pile de couches Glassmorphism */
+        .stack{ position:relative; width:100%; max-width:600px; }
+        .stack .layer{ position:absolute; inset:0; border-radius:40px; backdrop-filter:blur(10px); }
+        
+        /* Couches transparentes avec bordures fines */
+        .layer.l3{ background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); transform: translate(20px,20px); }
+        .layer.l2{ background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); transform: translate(10px,10px); }
+
+        .card{
+            position:relative;
+            padding:60px;
+            border-radius:40px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
+            z-index:2;
+        }
+
+        h1 { font-size: 2rem; margin-bottom: 10px; color: #fff; text-align: center; }
+        p { color: #a9c1c7; margin-bottom: 30px; text-align: center; font-size: 0.9rem; }
+
+        input {
+            width: 100%;
+            padding: 20px 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        button.primary {
+            width: 100%;
+            padding: 18px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        button.primary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(78, 200, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 20px; }
+        th { text-align: left; color: #a9c1c7; padding: 15px; font-weight: 400; font-size: 0.7rem; text-transform: uppercase; }
+        td { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; }
+    </style>
+</head>
+<body>
+    <div class="bg-img"></div>
+    
+    <div class="stack">
+        <div class="layer l3"></div>
+        <div class="layer l2"></div>
+        <div class="card">
+            <div id="loginForm">
+                <h1>Connexion Admin</h1>
+                <p>Espace sécurisé NeXera</p>
+                <div id="authMessage" style="color: #ff9bb6; margin-bottom: 15px; text-align: center; font-size: 0.8rem;"></div>
+                <form id="adminLoginForm" onsubmit="handleFetchAdminStats(event)">
+                    <div class="field-wrap" style="position: relative;">
+                        <input type="password" id="adminPassword" placeholder="Mot de passe" required>
+                        <span onclick="togglePassword()" style="position: absolute; right: 20px; top: 20px; cursor: pointer; color: #a9c1c7;">👁️</span>
+                    </div>
+                    <button type="submit" class="primary">Se connecter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        async function handleFetchAdminStats(event) {
+            event.preventDefault();
+            const password = document.getElementById("adminPassword").value;
+            const authMessage = document.getElementById("authMessage");
+            
+            authMessage.textContent = "Validation...";
+            
+            try {
+                // Vérification réelle via la fonction existante
+                await window.fetchAdminStats(password);
+                
+                // Si succès
+                localStorage.setItem('adminToken', 'true');
+                localStorage.setItem('adminPassword', password);
+                window.location.href = 'admin-dashboard.html';
+            } catch (e) {
+                authMessage.textContent = "Mot de passe incorrect.";
+            }
+        }
+
+        function togglePassword() {
+            const input = document.getElementById("adminPassword");
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+    </script>
+</body>
+</html>
