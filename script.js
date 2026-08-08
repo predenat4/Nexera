@@ -442,7 +442,16 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const addProgressBtn = document.getElementById("addProgressBtn");
   if (addProgressBtn) addProgressBtn.addEventListener("click", addLearningProgress);
+
+  // Check reminder
+  getProfile().then(profile => {
+      const today = new Date().toISOString().slice(0, 10);
+      if (profile.lastChallengeDate !== today) {
+        window.showDailyReminder();
+      }
+  });
 });
+
 
 window.fetchDocuments = async function() {
   const { data, error } = await supabase.storage.from('documents').list();
@@ -451,6 +460,28 @@ window.fetchDocuments = async function() {
     return [];
   }
   return data;
+};
+
+window.showDailyReminder = function() {
+  const lastShown = localStorage.getItem("last-reminder-shown");
+  const today = new Date().toISOString().slice(0, 10);
+  if (lastShown === today) return;
+
+  const toast = document.createElement("div");
+  toast.className = "notification-toast";
+  toast.innerHTML = `
+    <span>N'oublie pas de valider ta journée !</span>
+    <button onclick="window.completeChallenge(); this.parentElement.remove();">Valider</button>
+    <button onclick="this.parentElement.remove();">Fermer</button>
+  `;
+  document.body.appendChild(toast);
+  
+  // Play sound
+  const audio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+  audio.play().catch(e => console.log("Audio play failed:", e));
+
+  setTimeout(() => toast.classList.add("show"), 100);
+  localStorage.setItem("last-reminder-shown", today);
 };
 
 // Nouvelle fonction pour l'admin
@@ -624,6 +655,7 @@ window.addPost = async function addPost(content) {
   }
 };
 
+
 window.fetchDocuments = async function() {
   const { data, error } = await supabase.storage.from('documents').list();
   if (error) {
@@ -631,4 +663,26 @@ window.fetchDocuments = async function() {
     return [];
   }
   return data;
+};
+
+window.showDailyReminder = function() {
+  const lastShown = localStorage.getItem("last-reminder-shown");
+  const today = new Date().toISOString().slice(0, 10);
+  if (lastShown === today) return;
+
+  const toast = document.createElement("div");
+  toast.className = "notification-toast";
+  toast.innerHTML = `
+    <span>N'oublie pas de valider ta journée !</span>
+    <button onclick="window.completeChallenge(); this.parentElement.remove();">Valider</button>
+    <button onclick="this.parentElement.remove();">Fermer</button>
+  `;
+  document.body.appendChild(toast);
+  
+  // Play sound
+  const audio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+  audio.play().catch(e => console.log("Audio play failed:", e));
+
+  setTimeout(() => toast.classList.add("show"), 100);
+  localStorage.setItem("last-reminder-shown", today);
 };
