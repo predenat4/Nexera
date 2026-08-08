@@ -1,6 +1,8 @@
 document.addEventListener('keydown', (e) => {
-  // Shortcut: Alt + Shift + A
-  if (e.altKey && e.shiftKey && e.key === 'A') {
+  console.log("Key pressed:", e.key);
+  // Shortcut: Alt + Shift + A (or a)
+  if (e.altKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+    console.log("Shortcut detected! Redirecting...");
     window.location.href = 'admin-stats.html';
   }
 });
