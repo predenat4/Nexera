@@ -376,14 +376,26 @@ async function signUp(event) {
   console.log("Data:", { name, email, password });
 
   try {
-    const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { name } } });
+    const { data, error } = await supabase.auth.signUp({ 
+        email, 
+        password, 
+        options: { data: { name } } 
+    });
     if (error) throw error;
     
-    // Création automatique du profil dans Supabase
-    await supabase.from('profiles').insert([{ id: data.user.id, name, email }]);
+    // Si l'utilisateur est connecté automatiquement (selon config Supabase)
+    if (data.user) {
+        // Création automatique du profil dans Supabase
+        await supabase.from('profiles').insert([{ id: data.user.id, name, email }]);
+    }
     
-    console.log("Signup success");
-    window.location.href = "dashboard.html";
+    console.log("Signup success, waiting for session...");
+    
+    // Redirection après un court délai pour assurer que la session est détectée
+    setTimeout(() => {
+        window.location.href = "dashboard.html";
+    }, 500);
+    
   } catch (error) {
     console.error("Signup error:", error);
     showAuthMessage(error.message, true);
@@ -410,7 +422,10 @@ async function logout() {
 }
 
 function syncSupabaseSession() {
+  let isChecking = true;
+  
   supabase.auth.onAuthStateChange((event, session) => {
+    isChecking = false;
     const requiresAuth = document.body.dataset.requiresAuth === "true";
     const isAuthPage = window.location.pathname.endsWith("auth.html");
 
@@ -420,15 +435,26 @@ function syncSupabaseSession() {
         email: session.user.email
       }));
       if (isAuthPage) window.location.replace("dashboard.html");
+      updateInterface();
     } else {
       localStorage.removeItem(ACTIVE_USER_KEY);
-      if (requiresAuth && !isAuthPage) window.location.replace("auth.html");
+      if (requiresAuth && !isAuthPage) {
+        // Attendre un peu avant de conclure qu'il faut rediriger, pour laisser le temps à Supabase de s'initialiser
+        setTimeout(() => {
+            if (!localStorage.getItem(ACTIVE_USER_KEY)) {
+                window.location.replace("auth.html");
+            }
+        }, 1000);
+      }
     }
-    updateInterface();
   });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Masquer l'écran de chargement si présent
+  const loading = document.getElementById("loadingOverlay");
+  if (loading) loading.style.display = "none";
+
   setDailyQuote();
   updateInterface();
   syncSupabaseSession();
